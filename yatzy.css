@@ -3,7 +3,6 @@ body {
     display: grid;
     grid-template-rows: 1fr 2fr;
     background-image: linear-gradient(to bottom, rgb(237, 170, 54), rgb(192, 226, 57));
-    font-family: Arial, sans-serif;
     justify-items: center;
 }
 

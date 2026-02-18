@@ -227,7 +227,8 @@ inputs.forEach((input) => {
             // Lock the input when clicked
             input.disabled = true;
             // Optional: highlight it so the player knows it's locked
-            input.style.backgroundColor = "#bafa4b";  
+            input.style.backgroundColor = "#8befffdf";  
         }
+
     });
 });

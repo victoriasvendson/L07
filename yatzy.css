@@ -3,37 +3,42 @@ body {
     display: grid;
     grid-template-rows: 1fr 2fr;
     background-image: linear-gradient(to bottom, rgb(237, 170, 54), rgb(192, 226, 57));
+    font-family: Arial, sans-serif;
+    justify-items: center;
 }
 
 #containerTop {
     border: 1px solid black;
+    padding: 20px;
     margin: 10px;
-    padding: 10px;
-    margin-right: 840px;
-    margin-bottom: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
-#containerBottom {
-    border: 1px solid black;
-    margin: 10px;
-    padding: 10px;
-    margin-right: 900px;
+#containerDice {
+    display: flex;
+    gap: 10px;
 }
 
-#id-roll {
-    width: 120px;
-    height: 65px;
+.dice {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .row {
     display: grid;
-    grid-template-columns: 1fr 50px;
+    grid-template-columns: auto 60px;
+    gap: 10px;
     align-items: center;
-    margin-right: 100px;
-}
-
-#containerDice {
-    width: 30px;
-    height: 30px;
-    border: 1px solid black;
 }

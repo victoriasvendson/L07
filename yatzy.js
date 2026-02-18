@@ -1,4 +1,5 @@
 // spiludregninger
+
 let values = []
 let throwCount = 0
 
@@ -145,6 +146,47 @@ function yatzyPoints() {
 }
 
 // gui
-document.querySelector('button').onclick = () => {
-    
+const diceContainer = document.getElementById("containerDice"); 
+const rollButton = document.getElementById("roll-btn");
+
+let diceValues = new Array(5).fill(null);
+
+// If your dice images are mixed like dice1.png, dice2.png.jpg, etc.
+const diceFiles = [
+  "images/dice1.png",
+  "images/dice2.png",
+  "images/dice3.png",
+  "images/dice4.png",
+  "images/dice5.png",
+  "images/dice6.png"
+];
+
+// Create 5 dice slots
+function createDiceSlots() {
+  for (let i = 0; i < 5; i++) {
+    const img = document.createElement("img");
+    img.classList.add("dice");
+    img.src = diceFiles[0]; // start with dice1 as placeholder
+    img.dataset.index = i;
+    diceContainer.appendChild(img);
+  }
 }
+
+// Roll all dice
+function rollDice() {
+  const diceImages = document.querySelectorAll(".dice");
+
+  diceImages.forEach((img, index) => {
+    const value = Math.floor(Math.random() * 6); // 0-5 for index
+    diceValues[index] = value + 1; // store 1-6
+    img.src = diceFiles[value];    // assign correct image
+  });
+
+  console.log("Dice values:", diceValues);
+}
+
+rollButton.addEventListener("click", rollDice);
+
+createDiceSlots();
+
+

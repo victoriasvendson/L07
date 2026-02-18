@@ -3,6 +3,7 @@
 let values = []
 let throwCount = 0
 
+
 function numberGenerator() {
     return Math.floor(Math.random() * 6) + 1
 }
@@ -24,6 +25,26 @@ function frequency() {
         }
     }
     return freq
+}
+
+function getResults() {
+    let results = new Array(15);
+
+    for (let i = 0; i <= 5; i++) {
+        results[i] = sameValuePoints(i + 1);
+    }
+
+    results[6] = onePairPoints();
+    results[7] = twoPairPoints();
+    results[8] = threeSamePoints();
+    results[9] = fourSamePoints();
+    results[10] = fullHousePoints();
+    results[11] = smallStraightPoints();
+    results[12] = largeStraightPoints();
+    results[13] = chancePoints();
+    results[14] = yatzyPoints();
+
+    return results;
 }
 
 function sameValuePoints(value) {
@@ -178,15 +199,35 @@ function rollDice() {
 
   diceImages.forEach((img, index) => {
     const value = Math.floor(Math.random() * 6); // 0-5 for index
-    diceValues[index] = value + 1; // store 1-6
+    values[index] = value + 1; // store 1-6
     img.src = diceFiles[value];    // assign correct image
   });
 
-  console.log("Dice values:", diceValues);
+
+const rowContainer = document.querySelector(".row");
+const inputs = rowContainer.querySelectorAll("input");
+const results = getResults();
+for (let i = 0; i < results.length && i < inputs.length; i++) {
+    inputs[i].value = results[i];   
+
+}
+
+  console.log("Dice values:", values);
 }
 
 rollButton.addEventListener("click", rollDice);
 
 createDiceSlots();
 
-
+const rowContainer = document.querySelector(".row");
+const inputs = rowContainer.querySelectorAll("input");
+inputs.forEach((input) => {
+    input.addEventListener("click", () => {
+        if (!input.disabled) {
+            // Lock the input when clicked
+            input.disabled = true;
+            // Optional: highlight it so the player knows it's locked
+            input.style.backgroundColor = "#bafa4b";  
+        }
+    });
+});

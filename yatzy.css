@@ -2,7 +2,7 @@ body {
     margin: 0;
     display: grid;
     grid-template-rows: 1fr 2fr;
-    background-image: linear-gradient(to bottom, rgb(231, 231, 164), rgb(229, 204, 157));
+    background-image: linear-gradient(to bottom, rgb(237, 170, 54), rgb(192, 226, 57));
 }
 
 #containerTop {

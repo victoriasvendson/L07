@@ -18,6 +18,7 @@ body {
 }
 
 #containerBottom {
+    position: relative;
     border: 1px solid black;
     padding: 20px;
     margin: 10px;
@@ -32,10 +33,6 @@ body {
 
 #containerSumBonus {
     display: flex;
-}
-
-#containerTotal {
-
 }
 
 #containerDice {
@@ -77,4 +74,29 @@ button {
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+.containerSumBonus {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    display: grid;
+    grid-template-columns: auto 60px;
+    row-gap: 6px;
+    align-items: center;
+}
+
+#containerTotal {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: grid;
+    grid-template-columns: auto 60px;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 50px;
+    text-align: center;
 }

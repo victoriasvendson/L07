@@ -3,6 +3,14 @@
 let values = []
 let throwCount = 0
 
+const maxThrows = 3;
+
+let holdStatus = [false, false, false, false, false];
+
+const sumInput = document.querySelector("#row2 .containerSumBonus input:nth-of-type(1)");
+const bonusInput = document.querySelector("#row2 .containerSumBonus input:nth-of-type(2)");
+const totalInput = document.querySelector("#containerTotal input");
+
 
 function numberGenerator() {
     return Math.floor(Math.random() * 6) + 1
@@ -172,7 +180,6 @@ const rollButton = document.getElementById("roll-btn");
 
 let diceValues = new Array(5).fill(null);
 
-// If your dice images are mixed like dice1.png, dice2.png.jpg, etc.
 const diceFiles = [
   "images/dice1.png",
   "images/dice2.png",
@@ -182,53 +189,157 @@ const diceFiles = [
   "images/dice6.png"
 ];
 
-// Create 5 dice slots
+// Lav 5 slots terninger er i uden billede
 function createDiceSlots() {
   for (let i = 0; i < 5; i++) {
     const img = document.createElement("img");
     img.classList.add("dice");
-    img.src = diceFiles[0]; // start with dice1 as placeholder
+    img.src = diceFiles[0];
     img.dataset.index = i;
+
+    // Klik på terning for at holde den eller ikke holde den
+    img.addEventListener("click", () => {
+      const index = img.dataset.index;
+
+      // Kan kun holde hvis man har slået 1 gang
+      if (throwCount === 0) return;
+
+      holdStatus[index] = !holdStatus[index];
+
+      //ændrer farven hvis terningen er holdt
+      if (holdStatus[index]) {
+        img.style.border = "4px solid red";   // holdt
+      } else {
+        img.style.border = "4px solid rgb(89, 128, 246)"; // normal
+      }
+    });
+
     diceContainer.appendChild(img);
   }
 }
 
-// Roll all dice
+createDiceSlots();
+
+// Rull terninger
 function rollDice() {
+
+  if (throwCount >= maxThrows) {
+    alert("Du har brugt 3 kast. Vælg en score.");
+    return;
+  }
+
   const diceImages = document.querySelectorAll(".dice");
 
   diceImages.forEach((img, index) => {
-    const value = Math.floor(Math.random() * 6); // 0-5 for index
-    values[index] = value + 1; // store 1-6
-    img.src = diceFiles[value];    // assign correct image
+
+    if (!holdStatus[index]) {   // KUN rul hvis IKKE holdt
+      const value = Math.floor(Math.random() * 6);
+      values[index] = value + 1;
+      img.src = diceFiles[value];
+    }
+
   });
 
+  throwCount++;
 
-const rowContainer = document.querySelector(".row");
-const inputs = rowContainer.querySelectorAll("input");
-const results = getResults();
-for (let i = 0; i < results.length && i < inputs.length; i++) {
-    inputs[i].value = results[i];   
+  if (throwCount === maxThrows) {
+    rollButton.disabled = true;
+  }
 
+
+//opdatere score hver gang man slår
+ updateScorePreview();
+}
+function updateScorePreview() {
+  const rowContainer = document.querySelector(".row");
+  const inputs = rowContainer.querySelectorAll("input");
+  const results = getResults();
+
+  for (let i = 0; i < results.length && i < inputs.length; i++) {
+    if (!inputs[i].disabled) {
+      inputs[i].value = results[i];
+    }
+  }
 }
 
-  console.log("Dice values:", values);
-}
 
 rollButton.addEventListener("click", rollDice);
 
-createDiceSlots();
+
 
 const rowContainer = document.querySelector(".row");
 const inputs = rowContainer.querySelectorAll("input");
 inputs.forEach((input) => {
     input.addEventListener("click", () => {
-        if (!input.disabled) {
-            // Lock the input when clicked
-            input.disabled = true;
-            // Optional: highlight it so the player knows it's locked
-            input.style.backgroundColor = "#8befffdf";  
+
+        if (throwCount === 0) {
+            alert("Du skal rulle mindst 1 gang makker!");
+            return;
         }
 
+        if (!input.disabled) {
+
+            input.disabled = true;
+            input.style.backgroundColor = "#8befffdf";
+
+            updateTotals();
+
+            startNewRound();
+        }
     });
 });
+
+function updateTotals() {
+
+    const rowContainer = document.querySelector(".row");
+    const inputs = rowContainer.querySelectorAll("input");
+
+    let upperSum = 0;
+    let lowerSum = 0;
+
+    inputs.forEach((input, index) => {
+
+        if (input.disabled && input.value !== "") {
+
+            const value = parseInt(input.value);
+
+            if (index <= 5) {
+                upperSum += value;   // 1s–6s
+            } else {
+                lowerSum += value;   // rest
+            }
+        }
+    });
+
+    // Update SUM
+    sumInput.value = upperSum;
+
+    // BONUS
+    let bonus = upperSum >= 63 ? 50 : 0;
+    bonusInput.value = bonus;
+
+    // TOTAL
+    totalInput.value = upperSum + lowerSum + bonus;
+}
+
+//bliver kaldt når man vælger et felt
+function startNewRound() {
+
+  throwCount = 0;
+  rollButton.disabled = false;
+
+  holdStatus = [false, false, false, false, false];
+  values = [];
+
+  const diceImages = document.querySelectorAll(".dice");
+
+  diceImages.forEach((img) => {
+    img.src = diceFiles[0];
+    img.style.border = "4px solid rgb(89, 128, 246)";
+  });
+
+}
+
+function updateSumTotalBonus () {
+
+}

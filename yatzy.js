@@ -311,15 +311,19 @@ function updateTotals() {
         }
     });
 
-    // Update SUM
-    sumInput.value = upperSum;
+sumInput.value = upperSum;
 
-    // BONUS
-    let bonus = upperSum >= 63 ? 50 : 0;
-    bonusInput.value = bonus;
+let bonus;
 
-    // TOTAL
-    totalInput.value = upperSum + lowerSum + bonus;
+if (upperSum >= 63) {
+    bonus = 50;
+} else {
+    bonus = 0;
+}
+
+bonusInput.value = bonus;
+
+totalInput.value = upperSum + lowerSum + bonus;
 }
 
 //bliver kaldt når man vælger et felt

@@ -304,9 +304,9 @@ function updateTotals() {
             const value = parseInt(input.value);
 
             if (index <= 5) {
-                upperSum += value;   // 1s–6s
+                upperSum += value;   // 1-6 værdier
             } else {
-                lowerSum += value;   // rest
+                lowerSum += value;   // alle værdier undtagen 1-6
             }
         }
     });
